@@ -9,3 +9,5 @@ This repository contains practice code of [ros industrial training melodic branc
 - Under [Download and Build a Package from Source](https://industrial-training-master.readthedocs.io/en/melodic/_source/session1/Installing-Existing-Packages.html#download-and-build-a-package-from-source), a ros package [fake_ar_publisher](https://github.com/ros-industrial/fake_ar_publisher) is suggested. This is a necessary package to work through the rest of the training. However, for the ros industrial training based on ros melodic, you need to clone to [master branch of fake_ar_publisher](https://github.com/ros-industrial/fake_ar_publisher/tree/master)
 
   `git clone -b master https://github.com/jmeyer1292/fake_ar_publisher.git`
+
+- Concerning Continuous Integration (CI), there is an infrastructure [industrial_ci](https://github.com/ros-industrial/industrial_ci) from ros industrial. However, given the active development on [ros-tooling](https://github.com/ros-tooling), I decided to use the [Github Actions based CI](./github/workflows/ros-ci.yml). 
