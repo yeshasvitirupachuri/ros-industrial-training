@@ -1,7 +1,11 @@
-#Dependencies of ros pacakges 
+#Dependencies of ros pacakges
 
 repositories:
   fake_ar_publisher:
     type: git
     url: https://github.com/ros-industrial/fake_ar_publisher
     version: master
+  universal_robot:
+    type: git
+    url: https://github.com/ros-industrial/universal_robot
+    version: melodic-devel

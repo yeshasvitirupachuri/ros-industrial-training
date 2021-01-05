@@ -2,7 +2,7 @@
 
 name: ROS CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
@@ -30,16 +30,16 @@ jobs:
             ros_distribution: melodic
     container:
       image: ${{ matrix.docker_image }}
-        
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
       # Print the environment variables to simplify development and debugging
       - name: Environment Variables
         run: env
-          
+
       - uses: ros-tooling/setup-ros@v0.1
         with:
           required-ros-distributions:  ${{ matrix.ros_distribution }}
@@ -47,8 +47,8 @@ jobs:
       - uses: ros-tooling/action-ros-ci@v0.1
         with:
           vcs-repo-file-url: "${{ github.workspace }}/.github/workflows/rosdeps_packages.repos"
-          package-name: fake_ar_publisher myworkcell_core myworkcell_support
+          package-name: fake_ar_publisher universal_robot myworkcell_core myworkcell_support
           # Following https://github.com/ros-tooling/action-ros-ci#use-with-a-private-repo
           # actions-ros-ci on a private repository needs a Github Token
-          import-token: ${{ secrets.ROS_CI_TOKEN }} 
+          import-token: ${{ secrets.ROS_CI_TOKEN }}
           target-ros1-distro: ${{ matrix.ros_distribution }}
