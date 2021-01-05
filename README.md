@@ -2,7 +2,7 @@
 
 This repository contains practice code of [ros industrial training melodic branch](https://industrial-training-master.readthedocs.io/en/melodic/).
 
-[![ROS CI Action Status](https://github.com/Yeshasvitvs/ros-industrial-training/workflows/ROS%20CI/badge.svg)](https://github.com/Yeshasvitvs/ros-industrial-training/actions)
+[![ROS CI Action Status](https://github.com/Yeshasvitvs/ros-industrial-training/workflows/ROS%20CI/badge.svg)](https://github.com/Yeshasvitvs/ros-industrial-training/actions?query=workflow%3A%22ROS+CI%22)
 
 ### Observations
 
