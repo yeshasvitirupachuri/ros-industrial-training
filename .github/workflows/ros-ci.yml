@@ -1,5 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-
+# ROS Continuos Integration based on ros-tooling https://github.com/ros-tooling
 name: ROS CI
 
 # Controls when the action will run.
@@ -43,10 +42,12 @@ jobs:
       - uses: ros-tooling/setup-ros@v0.1
         with:
           required-ros-distributions:  ${{ matrix.ros_distribution }}
-      # joint-state-publisher package is deprecated, install use joint-state-publisher-gui
-      - run: sudo apt-get install  ros-melodic-joint-state-publisher-gui
+
+      # joint-state-publisher package is deprecated, instead use joint-state-publisher-gui
+      - run: sudo apt-get install ros-melodic-joint-state-publisher-gui
 
       - uses: ros-tooling/action-ros-ci@v0.1
+        id: action-ros-ci
         with:
           vcs-repo-file-url: "${{ github.workspace }}/.github/workflows/rosdeps_packages.repos"
           package-name: fake_ar_publisher universal_robot myworkcell_core myworkcell_support
@@ -54,6 +55,9 @@ jobs:
           # actions-ros-ci on a private repository needs a Github Token
           import-token: ${{ secrets.ROS_CI_TOKEN }}
           target-ros1-distro: ${{ matrix.ros_distribution }}
-      - run: ${{ github.workspace }}/.github/workflows/check-ros-distribution.sh "${{ matrix.ros_distribution }}"    
-      #Test urdf launch
-      - run: roslaunch myworkcell_support urdf.launch
+
+      # Test urdf launch file
+      - run: "source /opt/ros/${{ matrix.ros_distribution }}/setup.bash && source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/local_setup.bash &&  source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.bash && roslaunch myworkcell_support urdf.launch"
+
+      # Test workcell launch file
+      - run: "source /opt/ros/${{ matrix.ros_distribution }}/setup.bash && source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/local_setup.bash &&  source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.bash && roslaunch myworkcell_support workcell.launch"
