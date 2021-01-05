@@ -54,5 +54,6 @@ jobs:
           # actions-ros-ci on a private repository needs a Github Token
           import-token: ${{ secrets.ROS_CI_TOKEN }}
           target-ros1-distro: ${{ matrix.ros_distribution }}
+      - run: .github/workflows/check-ros-distribution.sh "${{ matrix.ros_distribution }}"    
       #Test urdf launch
-      - run: roslaunch myworkcell_support urdf.launch 
+      - run: roslaunch myworkcell_support urdf.launch
