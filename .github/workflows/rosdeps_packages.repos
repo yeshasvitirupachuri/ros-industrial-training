@@ -3,7 +3,7 @@
 repositories:
   fake_ar_publisher:
     type: git
-    url: https://github.com/ros-industrial/fake_ar_publisher
+    url: https://github.com/Yeshasvitvs/fake_ar_publisher
     version: master
   universal_robot:
     type: git
