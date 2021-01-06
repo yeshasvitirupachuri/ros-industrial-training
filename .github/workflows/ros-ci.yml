@@ -60,4 +60,4 @@ jobs:
       - run: "source /opt/ros/${{ matrix.ros_distribution }}/setup.bash && source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/local_setup.bash &&  source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.bash && roslaunch myworkcell_support urdf.launch"
 
       # Test workcell launch file
-      - run: "source /opt/ros/${{ matrix.ros_distribution }}/setup.bash && source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/local_setup.bash &&  source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.bash && roslaunch myworkcell_support workcell.launch"
+      #- run: "source /opt/ros/${{ matrix.ros_distribution }}/setup.bash && source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/local_setup.bash &&  source ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.bash && roslaunch myworkcell_support workcell.launch"
