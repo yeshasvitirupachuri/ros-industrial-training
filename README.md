@@ -1,10 +1,10 @@
-# Ros Industrial Training
+### ROS Industrial Training
 
 This repository contains practice code of [ros industrial training melodic branch](https://industrial-training-master.readthedocs.io/en/melodic/).
 
 [![ROS CI Action Status](https://github.com/Yeshasvitvs/ros-industrial-training/workflows/ROS%20CI/badge.svg)](https://github.com/Yeshasvitvs/ros-industrial-training/actions?query=workflow%3A%22ROS+CI%22)
 
-### Observations
+##### Observations
 
 - Following [ROS-Setup](https://industrial-training-master.readthedocs.io/en/melodic/_source/session1/ROS-Setup.html), it is quite handy to go through [Wiki page of ROS Qt Creator plug-in](https://ros-qtc-plugin.readthedocs.io/en/latest/index.html). This will help new developers to get [Qt configured](https://ros-qtc-plugin.readthedocs.io/en/latest/_source/Import-ROS-Workspace.html) with ROS Workspace, and handle the development of ROS projects from QtCreator.
 
