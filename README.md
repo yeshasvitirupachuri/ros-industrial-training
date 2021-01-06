@@ -1,4 +1,4 @@
-# ros-industrial-training
+# Ros Industrial Training
 
 This repository contains practice code of [ros industrial training melodic branch](https://industrial-training-master.readthedocs.io/en/melodic/).
 
