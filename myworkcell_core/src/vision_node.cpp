@@ -1,4 +1,9 @@
 #include <ros/ros.h>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <geometry_msgs/PoseStamped.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+
 #include <fake_ar_publisher/ARMarker.h>
 #include <myworkcell_core/LocalizePart.h>
 
@@ -9,7 +14,14 @@ public:
   ros::Subscriber ar_sub_;
   ros::ServiceServer server_;
 
+  tf2_ros::Buffer tf_buffer_;
+  tf2_ros::TransformListener tf_listener_;
+
+  geometry_msgs::PoseStamped target_pose_from_cam;
+  geometry_msgs::PoseStamped target_pose_from_req;
+
   Localizer(ros::NodeHandle& nh) //passing node handle as reference
+    : tf_listener_(tf_buffer_)
   {
     //create a subscriber
     ar_sub_ = nh.subscribe<fake_ar_publisher::ARMarker>("ar_pose_marker", 1,
@@ -31,7 +43,14 @@ public:
     }
 
     // Send the pose as the response to client
-    res.pose = p->pose.pose;
+    target_pose_from_cam.header = p->header;
+    target_pose_from_cam.pose = p->pose.pose;
+
+    // Transform the pose with respect to the base frame
+    target_pose_from_req = tf_buffer_.transform(target_pose_from_cam, req.base_frame);
+
+    res.pose = target_pose_from_req.pose;
+
     return true;
   }
 

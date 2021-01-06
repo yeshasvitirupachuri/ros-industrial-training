@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   fake_ar_publisher
   geometry_msgs
   message_generation
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -108,7 +110,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES myworkcell_core
    CATKIN_DEPENDS roscpp fake_ar_publisher
-   message_runtime geometry_msgs
+   message_runtime geometry_msgs tf2_ros tf2_geometry_msgs
 #  DEPENDS system_lib
 )
 
