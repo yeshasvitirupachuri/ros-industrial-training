@@ -44,7 +44,7 @@
   </include>
 
   <include file="$(find myworkcell_moveit_config)/launch/moveit_rviz.launch">
-    <arg name="rviz_config" value="true"/>
+    <arg name="rviz_config" default="$(find myworkcell_moveit_config)/rviz/moveit_rviz.rviz"/>
   </include>
 
 </launch>

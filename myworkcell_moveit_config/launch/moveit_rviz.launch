@@ -11,5 +11,5 @@
   <node name="$(anon rviz)" launch-prefix="$(arg launch_prefix)" pkg="rviz" type="rviz" respawn="false"
         args="$(arg command_args)" output="screen">
   </node>
-
+  
 </launch>
