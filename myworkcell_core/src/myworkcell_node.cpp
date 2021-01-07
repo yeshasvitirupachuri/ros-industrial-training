@@ -1,5 +1,9 @@
+#include <memory>
+
 #include <ros/ros.h>
+#include <tf/tf.h>
 #include <myworkcell_core/LocalizePart.h>
+#include <moveit/move_group_interface/move_group_interface.h>
 
 class ScanNPlan
 {
@@ -8,8 +12,15 @@ private:
   ros::ServiceClient vision_client_;
 
 public:
+
+  // Unique pointer to move group instance
+  std::unique_ptr<moveit::planning_interface::MoveGroupInterface> move_group;
+
   ScanNPlan(ros::NodeHandle& nh)
   {
+    // Initialize moveit move group
+    move_group = std::make_unique<moveit::planning_interface::MoveGroupInterface>(moveit::planning_interface::MoveGroupInterface("manipulator"));
+
     vision_client_ = nh.serviceClient<myworkcell_core::LocalizePart>("localize_part");
   }
 
@@ -30,6 +41,30 @@ public:
     }
 
     ROS_INFO_STREAM("Part localized with " << srv.response);
+
+    geometry_msgs::Pose move_target = srv.response.pose;
+
+
+
+    // Plan for robot to move to localize part location
+    move_group->setPoseReferenceFrame(base_frame);
+
+    // Get current end-effector pose using default end-effector link
+    geometry_msgs::PoseStamped old_pose = move_group->getCurrentPose();
+
+    // Set target pose
+    move_group->setPoseTarget(move_target);
+
+    // Move to target pose
+    ROS_INFO_STREAM("Moving to target pose ...");
+    move_group->move();
+
+    // Move back to old pose after a small delay
+    ros::Duration(2).sleep();
+    ROS_INFO_STREAM("Moving back to home pose ... ");
+    move_group->setPoseTarget(old_pose);
+    move_group->move();
+
   }
 };
 
@@ -51,9 +86,14 @@ int main(int argc, char* argv[])
 
   ros::Duration(0.5).sleep();
 
+  // Adding asynchronous spinner for enabling move group planning
+  ros::AsyncSpinner async_spinner(1);
+  async_spinner.start();
+
   // Call ScanNPlan application start method
   // This start is called from the main thread of this Ros node
   app.start(base_frame_request);
 
-  ros::spin();
+  ros::waitForShutdown();
+
 }

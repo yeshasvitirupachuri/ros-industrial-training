@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   tf2_ros
   tf2_geometry_msgs
+  moveit_ros_planning_interface
 )
 
 ## System dependencies are found with CMake's conventions
@@ -111,6 +112,7 @@ catkin_package(
 #  LIBRARIES myworkcell_core
    CATKIN_DEPENDS roscpp fake_ar_publisher
    message_runtime geometry_msgs tf2_ros tf2_geometry_msgs
+   moveit_ros_planning_interface
 #  DEPENDS system_lib
 )
 

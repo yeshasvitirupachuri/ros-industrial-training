@@ -53,6 +53,7 @@
   <build_depend>message_generation</build_depend>
   <depend>tf2_ros</depend>
   <depend>tf2_geometry_msgs</depend>
+  <depend>moveit_ros_planning_interface</depend>
   <depend>geometry_msgs</depend>
   <depend>fake_ar_publisher</depend>
   <build_export_depend>roscpp</build_export_depend>
