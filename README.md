@@ -36,3 +36,5 @@ This repository contains practice code of [ros industrial training melodic branc
     <arg name="rviz_config" value="true"/>
     </include>
     ```
+    
+- Under [Launch the Planning Environment](https://industrial-training-master.readthedocs.io/en/melodic/_source/session3/Motion-Planning-RVIZ.html#launch-the-planning-environment), running `roslaunch myworkcell_moveit_config myworkcell_planning_execution.launch` file launches rviz without motion planning. The user need to add the motion planning class manually. Created and added a new rviz configuration file to be launched with motion planning in [this commit](https://github.com/Yeshasvitvs/ros-industrial-training/commit/9f1c491c476c4e21c5a0653885eeb891c335cf13)
