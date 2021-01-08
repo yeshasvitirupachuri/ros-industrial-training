@@ -125,7 +125,7 @@ public:
     // corners of the AR marker
     const double side_length = 0.08; // All units are in meters (M)
     const double half_side = side_length / 2.0;
-    const double step_size = 0.0001;
+    const double step_size = 0.02;
 
     Eigen::Vector3d top_left (-half_side, half_side, 0);
     Eigen::Vector3d bot_left (-half_side, -half_side, 0);
