@@ -9,3 +9,8 @@ repositories:
     type: git
     url: https://github.com/ros-industrial/universal_robot
     version: melodic-devel
+  descartes:
+    type: git
+    url: https://github.com/ros-industrial-consortium/descartes.git
+    version: melodic-devel
+
