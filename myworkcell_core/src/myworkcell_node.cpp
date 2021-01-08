@@ -5,11 +5,19 @@
 #include <myworkcell_core/LocalizePart.h>
 #include <moveit/move_group_interface/move_group_interface.h>
 
+#include <actionlib/client/simple_action_client.h>
+#include <control_msgs/FollowJointTrajectoryAction.h>
+#include <myworkcell_core/PlanCartesianPath.h>
+
 class ScanNPlan
 {
 private:
-  // Ros Client for the vision node server
+  // ROS Client for the vision node server
   ros::ServiceClient vision_client_;
+
+  // ROS client for descartes Cartesian planner
+  ros::ServiceClient cartesian_client_;
+  actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction> cartesian_action_;
 
 public:
 
@@ -17,11 +25,14 @@ public:
   std::unique_ptr<moveit::planning_interface::MoveGroupInterface> move_group;
 
   ScanNPlan(ros::NodeHandle& nh)
+    : cartesian_action_("joint_trajectory_action", true)
   {
     // Initialize moveit move group
     move_group = std::make_unique<moveit::planning_interface::MoveGroupInterface>(moveit::planning_interface::MoveGroupInterface("manipulator"));
 
     vision_client_ = nh.serviceClient<myworkcell_core::LocalizePart>("localize_part");
+
+    cartesian_client_ = nh.serviceClient<myworkcell_core::PlanCartesianPath>("plan_path");
   }
 
   void start(const std::string& base_frame)
@@ -44,8 +55,6 @@ public:
 
     geometry_msgs::Pose move_target = srv.response.pose;
 
-
-
     // Plan for robot to move to localize part location
     move_group->setPoseReferenceFrame(base_frame);
 
@@ -64,6 +73,23 @@ public:
     ROS_INFO_STREAM("Moving back to home pose ... ");
     move_group->setPoseTarget(old_pose);
     move_group->move();
+
+    // Request descartes Cartesian trajectory
+    myworkcell_core::PlanCartesianPath cartesian_srv;
+    cartesian_srv.request.pose = move_target;
+    if (!cartesian_client_.call(cartesian_srv))
+    {
+      ROS_ERROR("Could not plan the cartesian path");
+      return;
+    }
+
+    ROS_INFO_STREAM("Cartesian path obtained from descartes planner");
+    control_msgs::FollowJointTrajectoryGoal goal;
+    goal.trajectory = cartesian_srv.response.trajectory;
+    cartesian_action_.sendGoal(goal);
+    cartesian_action_.waitForResult();
+
+    ROS_INFO_STREAM("Cartesian path execution done");
 
   }
 };

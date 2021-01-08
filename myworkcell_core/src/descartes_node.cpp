@@ -19,7 +19,7 @@ std::vector<double> getCurrentJointState(const std::string& topic)
 EigenSTL::vector_Isometry3d makeLine(const Eigen::Vector3d& start, const Eigen::Vector3d& stop, double ds)
 {
   EigenSTL::vector_Isometry3d line;
-  
+
   const Eigen::Vector3d travel = stop - start;
   const int steps = std::floor(travel.norm() / ds);
 
@@ -59,7 +59,7 @@ public:
   {
     // Create a robot model
     model_ = boost::make_shared<ur5_demo_descartes::UR5RobotModel>();
-    
+
     // Define the relevant "frames"
     const std::string robot_description = "robot_description";
     const std::string group_name = "manipulator";
@@ -88,7 +88,7 @@ public:
 
     // Step 1: Generate path poses
     EigenSTL::vector_Isometry3d tool_poses = makeToolPoses();
-    
+
     // Step 2: Translate that path by the input reference pose and convert to "Descartes points"
     std::vector<descartes_core::TrajectoryPtPtr> path = makeDescartesTrajectory(req.pose, tool_poses);
 
@@ -125,20 +125,28 @@ public:
     // corners of the AR marker
     const double side_length = 0.08; // All units are in meters (M)
     const double half_side = side_length / 2.0;
-    const double step_size = 0.02;
+    const double step_size = 0.0001;
 
     Eigen::Vector3d top_left (-half_side, half_side, 0);
     Eigen::Vector3d bot_left (-half_side, -half_side, 0);
+    Eigen::Vector3d bot_right (half_side, -half_side, 0);
+    Eigen::Vector3d top_right (half_side, half_side, 0);
 
     // Descartes requires you to guide it in how dense the points should be,
     // so you have to do your own "discretization".
     // NOTE that the makeLine function will create a sequence of points inclusive
     // of the start and exclusive of finish point, i.e. line = [start, stop)
-    
-    // TODO: Add the rest of the cartesian path
+
+    // Add the rest of the cartesian path
     auto segment1 = makeLine(top_left, bot_left, step_size);
+    auto segment2 = makeLine(bot_left, bot_right, step_size);
+    auto segment3 = makeLine(bot_right, top_right, step_size);
+    auto segment4 = makeLine(top_right, top_left, step_size);
 
     path.insert(path.end(), segment1.begin(), segment1.end());
+    path.insert(path.end(), segment2.begin(), segment2.end());
+    path.insert(path.end(), segment3.begin(), segment3.end());
+    path.insert(path.end(), segment4.begin(), segment4.end());
 
     return path;
   }
@@ -155,7 +163,7 @@ public:
     for (auto& point : path)
     {
       // TODO: make a Descartes "cartesian" point with some kind of constraints
-      descartes_core::TrajectoryPtPtr pt = makeTolerancedCartesianPoint(point);
+      descartes_core::TrajectoryPtPtr pt = makeTolerancedCartesianPoint(ref * point);
       descartes_path.push_back(pt);
     }
     return descartes_path;
