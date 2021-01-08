@@ -15,6 +15,12 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   tf2_geometry_msgs
   moveit_ros_planning_interface
+  trajectory_msgs
+  ur5_demo_descartes
+  descartes_trajectory
+  descartes_planner
+  descartes_utilities
+  eigen_conversions
 )
 
 ## System dependencies are found with CMake's conventions
@@ -61,7 +67,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
    FILES
    LocalizePart.srv
-#   Service2.srv
+   PlanCartesianPath.srv
  )
 
 ## Generate actions in the 'action' folder
@@ -75,6 +81,7 @@ add_service_files(
 generate_messages(
    DEPENDENCIES
    geometry_msgs
+   trajectory_msgs
 #   std_msgs  # Or other packages containing msgs
  )
 
@@ -113,6 +120,12 @@ catkin_package(
    CATKIN_DEPENDS roscpp fake_ar_publisher
    message_runtime geometry_msgs tf2_ros tf2_geometry_msgs
    moveit_ros_planning_interface
+   trajectory_msgs
+   ur5_demo_descartes
+   descartes_trajectory
+   descartes_planner
+   descartes_utilities
+   eigen_conversions
 #  DEPENDS system_lib
 )
 
@@ -142,6 +155,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(vision_node src/vision_node.cpp)
 add_executable(myworkcell_node src/myworkcell_node.cpp)
+add_executable(descartes_node src/descartes_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -153,12 +167,16 @@ add_executable(myworkcell_node src/myworkcell_node.cpp)
 ## same as for the library above
 add_dependencies(vision_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(myworkcell_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(descartes_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(vision_node
    ${catkin_LIBRARIES}
  )
 target_link_libraries(myworkcell_node
+   ${catkin_LIBRARIES}
+ )
+target_link_libraries(descartes_node
    ${catkin_LIBRARIES}
  )
 
@@ -186,6 +204,10 @@ install(TARGETS myworkcell_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+install(TARGETS descartes_node
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
 ## Mark libraries for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
  install(TARGETS vision_node
@@ -195,6 +217,12 @@ install(TARGETS myworkcell_node
  )
 
 install(TARGETS myworkcell_node
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+)
+
+install(TARGETS descartes_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
