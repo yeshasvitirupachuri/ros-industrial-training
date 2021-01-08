@@ -50,7 +50,7 @@ jobs:
         id: action-ros-ci
         with:
           vcs-repo-file-url: "${{ github.workspace }}/.github/workflows/rosdeps_packages.repos"
-          package-name: fake_ar_publisher universal_robot myworkcell_core myworkcell_support
+          package-name: fake_ar_publisher universal_robot ur5_demo_descartes myworkcell_core myworkcell_support
           # Following https://github.com/ros-tooling/action-ros-ci#use-with-a-private-repo
           # actions-ros-ci on a private repository needs a Github Token
           import-token: ${{ secrets.ROS_CI_TOKEN }}
