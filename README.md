@@ -40,3 +40,11 @@ This repository contains practice code of [ros industrial training melodic branc
 - Under [Launch the Planning Environment](https://industrial-training-master.readthedocs.io/en/melodic/_source/session3/Motion-Planning-RVIZ.html#launch-the-planning-environment), running `roslaunch myworkcell_moveit_config myworkcell_planning_execution.launch` file launches rviz without motion planning. The user need to add the motion planning class manually. Created and added a new rviz configuration file to be launched with motion planning in [this commit](https://github.com/Yeshasvitvs/ros-industrial-training/commit/9f1c491c476c4e21c5a0653885eeb891c335cf13)
 
 - Under more to explore point of [Scan-N-Plan Application: Guidance](https://industrial-training-master.readthedocs.io/en/melodic/_source/session4/Motion-Planning-CPP.html#scan-n-plan-application-guidance), you will need to use move group `getCurrentPose()` api call. This may thrown an error if the `asynchronos spinner` is started after the call to  `start()` of ScanNPlan application ([Reference Issue](https://github.com/ros-planning/moveit/issues/1187)). Check [this commit](https://github.com/Yeshasvitvs/ros-industrial-training/commit/311d296274b95d611c4130ed3f0a4c8dafeda276)
+
+- Under [Application Demo 1 - Perception-Driven Manipulation](https://industrial-training-master.readthedocs.io/en/melodic/_source/demo1/Bring-up-ROS-system-in-simulation-mode.html#start-in-simulation-mode), you need to add the following planning node to `ur5_setup.launch` file before running rviz node. Comment this node from `ur5_pick_and_place.launch` file. 
+
+  ```
+  <include file="$(find ur5_collision_avoidance_moveit_config)/launch/move_group.launch">
+    <arg name="publish_monitored_planning_scene" value="true" />
+  </include>
+  ```
