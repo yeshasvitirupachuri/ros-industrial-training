@@ -4,6 +4,10 @@ This repository contains practice code of [ros industrial training melodic branc
 
 [![ROS CI Action Status](https://github.com/Yeshasvitvs/ros-industrial-training/workflows/ROS%20CI/badge.svg)](https://github.com/Yeshasvitvs/ros-industrial-training/actions?query=workflow%3A%22ROS+CI%22)
 
+#### Visualizations
+
+![asf](/misc/visualization_motion_planning.gif)
+
 ##### Observations
 
 - Following [ROS-Setup](https://industrial-training-master.readthedocs.io/en/melodic/_source/session1/ROS-Setup.html), it is quite handy to go through [Wiki page of ROS Qt Creator plug-in](https://ros-qtc-plugin.readthedocs.io/en/latest/index.html). This will help new developers to get [Qt configured](https://ros-qtc-plugin.readthedocs.io/en/latest/_source/Import-ROS-Workspace.html) with ROS Workspace, and handle the development of ROS projects from QtCreator.
@@ -41,7 +45,7 @@ This repository contains practice code of [ros industrial training melodic branc
 
 - Under more to explore point of [Scan-N-Plan Application: Guidance](https://industrial-training-master.readthedocs.io/en/melodic/_source/session4/Motion-Planning-CPP.html#scan-n-plan-application-guidance), you will need to use move group `getCurrentPose()` api call. This may thrown an error if the `asynchronos spinner` is started after the call to  `start()` of ScanNPlan application ([Reference Issue](https://github.com/ros-planning/moveit/issues/1187)). Check [this commit](https://github.com/Yeshasvitvs/ros-industrial-training/commit/311d296274b95d611c4130ed3f0a4c8dafeda276)
 
-- Under [Application Demo 1 - Perception-Driven Manipulation](https://industrial-training-master.readthedocs.io/en/melodic/_source/demo1/Bring-up-ROS-system-in-simulation-mode.html#start-in-simulation-mode), you need to add the following planning node to `ur5_setup.launch` file before running rviz node. Comment this node from `ur5_pick_and_place.launch` file. 
+- Under [Application Demo 1 - Perception-Driven Manipulation](https://industrial-training-master.readthedocs.io/en/melodic/_source/demo1/Bring-up-ROS-system-in-simulation-mode.html#start-in-simulation-mode), you need to add the following planning node to `ur5_setup.launch` file before running rviz node. Comment this node from `ur5_pick_and_place.launch` file.
 
   ```
   <include file="$(find ur5_collision_avoidance_moveit_config)/launch/move_group.launch">
